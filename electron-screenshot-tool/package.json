@@ -1,0 +1,15 @@
+{
+  "name": "electron-screenshot-tool",
+  "version": "1.0.0",
+  "description": "A screenshot tool built with Electron",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": ["electron", "screenshot"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^13.1.7"
+  }
+}
