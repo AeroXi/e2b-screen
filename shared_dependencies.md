@@ -1,26 +1,21 @@
-1. Dependencies:
-   - "electron": This is the main dependency that will be shared across all the files. It is used to create the desktop application.
+Shared Dependencies:
 
-2. Exported Variables:
-   - "app": This is the Electron application instance, exported from "main.js".
-   - "BrowserWindow": This is the Electron BrowserWindow instance, exported from "main.js".
-   - "shortcut": This is the shortcut key (F6), exported from "shortcut.js".
-   - "screenshot": This is the function to take a screenshot, exported from "screenshot.js".
-   - "saveDialog": This is the function to prompt the user to select the save location, exported from "saveDialog.js".
+1. Electron: Electron is the main dependency that is shared across all the files. It is a framework for creating native applications with web technologies like JavaScript, HTML, and CSS.
 
-3. Data Schemas:
-   - "screenshotData": This schema will hold the data related to the screenshot, including the screenshot itself and the selected area.
+2. registerShortcut: This function is used to register the F6 key as a shortcut for taking screenshots. It is used in the main.js file.
 
-4. ID Names of DOM Elements:
-   - "screenshotArea": This is the ID of the DOM element where the user can drag to select the screenshot area.
-   - "confirmButton": This is the ID of the DOM element for the confirm button.
+3. saveScreenshot: This function is used to save the screenshot to a user-selected location. It is used in the main.js file.
 
-5. Message Names:
-   - "takeScreenshot": This is the message sent from the renderer process to the main process to take a screenshot.
-   - "saveScreenshot": This is the message sent from the renderer process to the main process to save the screenshot.
+4. dragArea: This is the id of the DOM element that the user can drag to select the area for the screenshot. It is used in the index.html and renderer.js files.
 
-6. Function Names:
-   - "takeScreenshot": This function in "screenshot.js" takes a screenshot.
-   - "saveScreenshot": This function in "saveDialog.js" saves the screenshot to a user-selected location.
-   - "registerShortcut": This function in "shortcut.js" registers the shortcut key.
-   - "createWindow": This function in "main.js" creates the application window.
+5. confirmButton: This is the id of the DOM element that the user can press to confirm the screenshot. It is used in the index.html and renderer.js files.
+
+6. screenshotLocation: This is the id of the DOM element that prompts the user to select the save location for the screenshot. It is used in the index.html and renderer.js files.
+
+7. styles.css: This file contains the CSS styles that are applied to the DOM elements in the index.html file.
+
+8. package.json: This file contains the metadata about the app like its name, version, description, and dependencies. It is shared across all the files as it is used to manage the project's dependencies.
+
+9. renderer.js: This file contains the JavaScript code that runs in the web page. It interacts with the DOM elements in the index.html file.
+
+10. main.js: This file contains the main process of the Electron app. It registers the shortcut, handles the screenshot taking, and saving process.
