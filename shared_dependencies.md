@@ -1,21 +1,17 @@
 Shared Dependencies:
 
-1. Electron: Electron is the main dependency that is shared across all the files. It is a framework for creating native applications with web technologies like JavaScript, HTML, and CSS.
+1. **Electron**: Electron is the main dependency that is shared across all the files. It is a framework for creating native applications with web technologies like JavaScript, HTML, and CSS.
 
-2. registerShortcut: This function is used to register the F6 key as a shortcut for taking screenshots. It is used in the main.js file.
+2. **registerShortcut function**: This function is used to register the F6 shortcut key. It is used in the main.js file and possibly in the shortcut.js file.
 
-3. saveScreenshot: This function is used to save the screenshot to a user-selected location. It is used in the main.js file.
+3. **dragArea function**: This function is used to allow the user to drag an area for the screenshot. It is used in the main.js file and possibly in the dragArea.js file.
 
-4. dragArea: This is the id of the DOM element that the user can drag to select the area for the screenshot. It is used in the index.html and renderer.js files.
+4. **saveScreenshot function**: This function is used to save the screenshot to a user-selected location. It is used in the main.js file and possibly in the saveScreenshot.js file.
 
-5. confirmButton: This is the id of the DOM element that the user can press to confirm the screenshot. It is used in the index.html and renderer.js files.
+5. **DOM Elements**: The DOM elements that are used by the JavaScript functions are likely defined in the index.html file and styled in the style.css file. The specific id names of these elements are not provided in the prompt.
 
-6. screenshotLocation: This is the id of the DOM element that prompts the user to select the save location for the screenshot. It is used in the index.html and renderer.js files.
+6. **Package.json**: This file contains metadata about the app like its name, version, and dependencies. It is shared across all the files as it defines the dependencies that the project needs to run.
 
-7. styles.css: This file contains the CSS styles that are applied to the DOM elements in the index.html file.
+7. **UnhandledPromiseRejectionWarning**: This is an error message that is shared between the console output and the main.js file. It indicates that a Promise was rejected but there was no error handler attached to handle it.
 
-8. package.json: This file contains the metadata about the app like its name, version, description, and dependencies. It is shared across all the files as it is used to manage the project's dependencies.
-
-9. renderer.js: This file contains the JavaScript code that runs in the web page. It interacts with the DOM elements in the index.html file.
-
-10. main.js: This file contains the main process of the Electron app. It registers the shortcut, handles the screenshot taking, and saving process.
+8. **TypeError**: This is an error message that is shared between the console output and the main.js file. It indicates that a certain function or variable is not of the expected type.
