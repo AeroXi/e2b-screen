@@ -1,20 +1,15 @@
-const { globalShortcut } = require('electron')
+const { ipcRenderer } = require('electron');
 
-function registerShortcut(win) {
-    globalShortcut.register('F6', () => {
-        win.webContents.send('capture', 'start');
+ipcRenderer.on('register-shortcut', () => {
+    ipcRenderer.send('register-shortcut-success', {
+        success: true,
+        message: 'Shortcut registered successfully'
     });
+});
 
-    globalShortcut.register('CommandOrControl+Shift+X', () => {
-        win.webContents.send('capture', 'start');
+ipcRenderer.on('unregister-shortcut', () => {
+    ipcRenderer.send('unregister-shortcut-success', {
+        success: true,
+        message: 'Shortcut unregistered successfully'
     });
-}
-
-function unregisterShortcut() {
-    globalShortcut.unregisterAll();
-}
-
-module.exports = {
-    registerShortcut,
-    unregisterShortcut
-}
+});

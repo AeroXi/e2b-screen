@@ -1,9 +1,6 @@
-const { app, BrowserWindow, globalShortcut, dialog } = require('electron');
+```javascript
+const { app, BrowserWindow, ipcMain, globalShortcut } = require('electron');
 const path = require('path');
-const url = require('url');
-const { registerShortcut } = require('./js/shortcut.js');
-const { dragArea } = require('./js/dragArea.js');
-const { saveScreenshot } = require('./js/saveScreenshot.js');
 
 let mainWindow;
 
@@ -13,44 +10,41 @@ function createWindow () {
     height: 600,
     webPreferences: {
       nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true,
+      preload: path.join(__dirname, 'preload.js')
     }
   });
 
-  mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'index.html'),
-    protocol: 'file:',
-    slashes: true
-  }));
-
-  mainWindow.on('closed', function () {
-    mainWindow = null;
-  });
+  mainWindow.loadFile('index.html');
 }
 
-app.on('ready', () => {
+app.whenReady().then(() => {
   createWindow();
-  registerShortcut('F6', () => {
-    dragArea(mainWindow, (err, data) => {
-      if (err) throw err;
-      dialog.showSaveDialog(mainWindow, {
-        defaultPath: path.join(app.getPath('desktop'), 'screenshot.png'),
-      }, (filename) => {
-        if (filename) {
-          saveScreenshot(filename, data);
-        }
-      });
-    });
+
+  app.on('activate', function () {
+    if (BrowserWindow.getAllWindows().length === 0) createWindow();
+  });
+
+  globalShortcut.register('F6', () => {
+    mainWindow.webContents.send('shortcut-pressed');
   });
 });
 
 app.on('window-all-closed', function () {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
+  if (process.platform !== 'darwin') app.quit();
 });
 
-app.on('activate', function () {
-  if (mainWindow === null) {
-    createWindow();
-  }
+ipcMain.on('register-shortcut', (event, key) => {
+  const result = globalShortcut.register(key, () => {
+    mainWindow.webContents.send('shortcut-pressed');
+  });
+
+  event.returnValue = result;
 });
+
+ipcMain.on('unregister-shortcut', (event, key) => {
+  const result = globalShortcut.unregister(key);
+  event.returnValue = result;
+});
+```

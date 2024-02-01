@@ -1,12 +1,16 @@
 {
   "name": "electron-screenshot-tool",
   "version": "1.0.0",
-  "description": "A screenshot tool built with Electron. Supports both Mac and Windows.",
+  "description": "A screenshot tool built with Electron. Press F6 to take a screenshot, drag an area, press confirm, and save the screenshot to a location.",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
-  "keywords": ["electron", "screenshot", "tool"],
+  "keywords": [
+    "electron",
+    "screenshot",
+    "tool"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {

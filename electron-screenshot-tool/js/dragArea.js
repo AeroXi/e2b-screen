@@ -1,44 +1,49 @@
-const { desktopCapturer, screen } = require('electron');
+```javascript
+const { ipcRenderer, screen } = require('electron');
 
-let x, y, width, height;
+let dragArea = null;
+let startX = 0;
+let startY = 0;
 
-function dragArea() {
-    window.addEventListener('mousedown', (e) => {
-        x = e.x;
-        y = e.y;
-    });
+ipcRenderer.on('shortcut-pressed', () => {
+    if (!dragArea) {
+        dragArea = document.createElement('div');
+        dragArea.style.position = 'absolute';
+        dragArea.style.border = '1px solid #f00';
+        document.body.appendChild(dragArea);
+    }
 
-    window.addEventListener('mouseup', (e) => {
-        width = e.x - x;
-        height = e.y - y;
-        takeScreenshot();
-    });
-}
+    dragArea.style.width = '0px';
+    dragArea.style.height = '0px';
+    dragArea.style.left = '0px';
+    dragArea.style.top = '0px';
 
-async function takeScreenshot() {
-    const displays = screen.getAllDisplays();
-    const wholeSize = displays.reduce((size, display) => {
-        size.width += display.bounds.width;
-        size.height = Math.max(size.height, display.bounds.height);
-        return size;
-    }, { width: 0, height: 0 });
+    document.onmousedown = (e) => {
+        startX = e.pageX;
+        startY = e.pageY;
 
-    const sources = await desktopCapturer.getSources({
-        types: ['screen'],
-        thumbnailSize: wholeSize
-    });
+        dragArea.style.width = '0px';
+        dragArea.style.height = '0px';
+        dragArea.style.left = `${startX}px`;
+        dragArea.style.top = `${startY}px`;
+    };
 
-    const fullImage = sources[0].thumbnail;
-    const croppedImage = fullImage.crop({
-        x: x,
-        y: y,
-        width: width,
-        height: height
-    });
+    document.onmousemove = (e) => {
+        dragArea.style.width = `${Math.abs(e.pageX - startX)}px`;
+        dragArea.style.height = `${Math.abs(e.pageY - startY)}px`;
+        dragArea.style.left = `${Math.min(e.pageX, startX)}px`;
+        dragArea.style.top = `${Math.min(e.pageY, startY)}px`;
+    };
 
-    return croppedImage.toDataURL();
-}
-
-module.exports = {
-    dragArea: dragArea
-};
+    document.onmouseup = () => {
+        document.onmousedown = null;
+        document.onmousemove = null;
+        ipcRenderer.send('area-selected', {
+            x: Math.min(e.pageX, startX),
+            y: Math.min(e.pageY, startY),
+            width: Math.abs(e.pageX - startX),
+            height: Math.abs(e.pageY - startY)
+        });
+    };
+});
+```
